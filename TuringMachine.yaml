@@ -1,0 +1,176 @@
+name: projekt Turing Machine
+source code: |-
+  input: '100_110_111_H$'
+  blank: ' '
+  start state: start
+  table:
+    start:
+      1: R
+      0: R
+      _: R
+      S: {write: S,L: takevalue}
+      I: {write: I,L: rollbackI}
+      H: {write: H, L: rollbackH}
+
+    rollbackI:
+      _: L
+      1: L 
+      0: L
+      ' ': {write: ' ',R: takevalueI}
+      A: {write: 'A', R: takevalueI}
+      B: {write: 'B', R: takevalueI}
+      c: {write: c, R: takevalueI}
+
+    takevalue:
+      _: {write: c, R: insert_}
+      1: {write: A, R: insert1}
+      0: {write: B, R: insert0}
+      S: L
+      A: L
+      $: L
+      c: L
+      B: L
+      I: {write: I, L: rollbackI}
+      ' ': {write: ' ',R: finalCheck}
+      H: {write: H, L: rollbackH}
+      
+    takevalueI:
+      1: {write: A, R: insert0}
+      0: {write: B, R: insert1}
+      _: {write: c , R: insert_I}
+    
+    rollbackH:
+      c: L 
+      1: L
+      0: L
+      _: {write: _, R: insert_H}
+      A: {write: A, R: insert_H}
+      ' ': {write: f, R: insert_H}
+      B: {write: B, R: insert_H}
+      
+      
+    insert_H:
+      H: {write: H, L: insert_checkH}    
+      1: {write: A, R: insert1}  
+      c: {write: c, L: node_check}
+      0: {write: B, R: insert0}
+      
+    node_check:
+      A: L
+      B: L
+      _: {write: c, R: insert_ } 
+      c: L 
+      0: {write: 0,L: rollbackH}
+      1: {write: 1,L: rollbackH}
+      f: {write: ' ', R: finalCheck}
+
+    
+    insert_checkH:
+      _: {write: c, R: insert_H}
+      c: {write: c, L: rollbackH}
+      
+      
+    finalCheck:
+      A: {write: 1,R: finalCheck}
+      B: {write: 0,R: finalCheck}
+      c: {write: _,R: finalCheck}
+      $: R
+      1: R
+      0: R
+      S: R
+      _: R
+      H: R
+      ' ': {write: ' ', L: accept}     
+      
+    insert0:
+      _: R
+      c: R
+      S: R
+      I: R
+      A: R
+      B: R
+      0: R
+      H: R
+      1: R
+      $: R
+      ' ': {write: 0, L: takedollar}
+      
+    insert1:
+      _: R
+      B: R
+      0: R
+      d: R
+      c: R
+      a: R
+      H: R
+      S: R
+      A: R
+      1: R
+      I: R
+      $: R
+      ' ': {write: 1, L: takedollar}
+    
+    insert_:
+      S: R
+      A: R
+      1: R
+      0: R
+      _: R
+      I: R
+      c: R
+      B: R
+      H: R
+      $: {write: $, R: drop_or_not}
+      
+    insert_I:
+      1: {write: 1, R: insert_}
+      0: {write: 0, R: insert_}
+      I: {write: I, R: rollcheck}
+    
+    rollcheck:
+      I: L
+      c: {write: _, L: rollcheck}
+      A: {write: 1, L: rollcheck}
+      B: {write: 0, L: rollcheck}
+      $: L
+      ' ': {write: ' ', R: accept}
+
+    drop_or_not:
+      ' ': {write: ' ',L: takevalue}
+      1: {write: 1, R: drop_}    
+      0: {write: 0, R: drop_}
+      
+    drop_:
+      1: R
+      0: R
+      ' ': {write: _, L: takedollar}
+      _: R
+      
+    takedollar:
+      1: L
+      0: L
+      _: L
+      $: {write: $, L: takevalue}  
+      
+    accept:  
+      
+    
+positions:
+  start: {x: 437.86, y: 197.53, fixed: false}
+  rollbackI: {x: 518.02, y: 306.05}
+  takevalue: {x: 397.55, y: 345.35, fixed: false}
+  takevalueI: {x: 396.05, y: 259.87, fixed: false}
+  rollbackH: {x: 296.3, y: 223.19, fixed: false}
+  insert_H: {x: 210.18, y: 136.87, fixed: false}
+  node_check: {x: 358.17, y: 82.96, fixed: false}
+  insert_checkH: {x: 132.47, y: 247.51, fixed: false}
+  finalCheck: {x: 489.06, y: 204.98, fixed: false}
+  insert0: {x: 241.07, y: 307.91, fixed: false}
+  insert1: {x: 264.78, y: 286.85, fixed: false}
+  insert_: {x: 350.53, y: 214.82, fixed: false}
+  insert_I: {x: 473.24, y: 113.61, fixed: false}
+  rollcheck: {x: 601.06, y: 24.1, fixed: false}
+  drop_or_not: {x: 265.53, y: 370.1, fixed: false}
+  drop_: {x: 162.04, y: 480, fixed: false}
+  takedollar: {x: 299.76, y: 447.49, fixed: false}
+  accept: {x: 638.98, y: 165.24, fixed: false}
